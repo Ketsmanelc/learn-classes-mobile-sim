@@ -1,43 +1,53 @@
 #include <iostream>
 #include <vector>
 class Contact{
-public:
     std::string name = "";
     std::string number = "";
+public:
+    std::string getName()
+    {
+        return name;
+    }
+    std::string getNumber()
+    {
+        return number;
+    }
+    void setName(std::string newName){
+        name = newName;
+    }
+    void setNumber(std::string newNumber){
+        number = newNumber;
+    }
 };
 
 class MobilePhone{
-
-    //std::vector<Contact> contacts;
-    int count = 0;
+    Contact newObject;
+    std::vector<Contact> contacts;
     bool isNumber(std::string text){
         return (text[0] == '+' || (text[0] >= '0' && text[0] <= '9'));
     }
 public:
-    Contact contacts[100];
     void add(){
-        //contacts.push_back(1);
-        if (count <= 99) {
-            std::cout << "Name: ";
-            std::cin >> contacts[count].name;
-            std::cout << "Number: ";
-            std::cin >> contacts[count].number;
-            count++;
-        } else std::cerr << "Not enough storage place!";
+        contacts.push_back(newObject);
+        std::string tmp;
+        std::cout << "Name: ";
+        std::cin >> tmp;
+        contacts[contacts.size() - 1].setName(tmp);
+        std::cout << "Number: ";
+        std::cin >> tmp;
+        contacts[contacts.size() - 1].setNumber(tmp);
     }
 
     void call(){
         std::string userInput;
         std::cin >> userInput;
         if (isNumber(userInput)) {
-            for (int i = 0; i < count; i++){
-                if (contacts[i].number == userInput) std::cout << "CALL " <<  contacts[i].number;
-                else std::cout << "Contact hasn't been found.";
+            for (int i = 0; i < contacts.size(); i++){
+                if (contacts[i].getNumber() == userInput) std::cout << "CALL " <<  contacts[i].getName();
             }
         } else {
-            for (int i = 0; i < count; i++){
-                if (contacts[i].name == userInput) std::cout << "CALL " <<  contacts[i].number;
-                else std::cout << "Contact hasn't been found.";
+            for (int i = 0; i < contacts.size(); i++){
+                if (contacts[i].getName() == userInput) std::cout << "CALL " <<  contacts[i].getNumber();
             }
         }
     }
@@ -48,12 +58,12 @@ public:
         std::cin >> userInput;
         std::cin >> message;
         if (isNumber(userInput)) {
-            for (int i = 0; i < count; i++){
-                if (contacts[i].number == userInput) std::cout << "SMS " <<  contacts[i].number << " " << message;
+            for (int i = 0; i < contacts.size(); i++){
+                if (contacts[i].getNumber() == userInput) std::cout << "SMS " <<  contacts[i].getName() << " " << message;
             }
         } else {
-            for (int i = 0; i < count; i++){
-                if (contacts[i].name == userInput) std::cout << "SMS " <<  contacts[i].number << " " << message;
+            for (int i = 0; i < contacts.size(); i++){
+                if (contacts[i].getName() == userInput) std::cout << "SMS " <<  contacts[i].getNumber() << " " << message;
             }
         }
     }
@@ -69,11 +79,11 @@ int main() {
         if (cmd == "add") mobilePhone->add();
         else if (cmd == "call") mobilePhone->call();
         else if (cmd == "sms") mobilePhone->sms();
-        else if (cmd == "exit") return 0;
+        else if (cmd == "exit") break;
         else std::cout << "Invalid command";
-       //for (int i = 0; i < 100; i++){
-       //     std::cout << mobilePhone[i].contacts->name << " " << mobilePhone[i].contacts->number << std::endl;
-      //  }
     }
+
+    delete mobilePhone;
+    return 0;
 }
 
