@@ -21,21 +21,27 @@ public:
 };
 
 class MobilePhone{
-    Contact newObject;
     std::vector<Contact> contacts;
     bool isNumber(std::string text){
-        return (text[0] == '+' || (text[0] >= '0' && text[0] <= '9'));
+        for (int i = 0; i < text.length(); i++)
+        {
+            if (!(text[i] == '+' || (text[i] >= '0' && text[i] <= '9'))) return false;
+        }
+        return true;
     }
 public:
     void add(){
-        contacts.push_back(newObject);
+        Contact newContact;
         std::string tmp;
         std::cout << "Name: ";
         std::cin >> tmp;
-        contacts[contacts.size() - 1].setName(tmp);
+        newContact.setName(tmp);
+        //contacts[contacts.size() - 1].setName(tmp);
         std::cout << "Number: ";
         std::cin >> tmp;
-        contacts[contacts.size() - 1].setNumber(tmp);
+        newContact.setNumber(tmp);
+        contacts.push_back(newContact);
+        //contacts[contacts.size() - 1].setNumber(tmp);
     }
 
     void call(){
